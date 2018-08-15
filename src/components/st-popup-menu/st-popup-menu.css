@@ -1,0 +1,70 @@
+/* ==========================================================================
+ * Stencil Popup Menu Stylesheet
+ *
+ * @author: Andre Goncalves (andre@andregoncalves)
+ * @project: st-popup-menu
+ * @date: Jun 29 2018
+ * @copyright: 2018 Andre Goncalves
+ * ==========================================================================
+ */
+
+st-popup-menu {
+  position: absolute;
+  top:0;
+  left:0;
+  margin: 0;
+  padding: 0;
+  height: 0;
+
+  --arrow-pos: 10%;
+}
+st-popup-menu > div {
+  background: green;
+  position: absolute;
+  visibility: hidden;
+  width: 200px;
+}
+st-popup-menu > div.visible {
+  visibility: visible;
+}
+
+st-popup-menu > div img {
+  display: block;
+  max-width: 100%;
+}
+
+/* ==========================================================================
+   ARROW
+   ==========================================================================
+*/
+
+st-popup-menu > div {
+  background: #88b7d5;
+  border: 2px solid #c2e1f5;
+  position: relative;
+}
+st-popup-menu > div:after, st-popup-menu > div:before {
+  bottom: 100%;
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  left: var(--arrow-pos);
+}
+
+st-popup-menu > div:after {
+  border-color: rgba(136, 183, 213, 0);
+  border-bottom-color: #88b7d5;
+  border-width: 10px;
+  margin-left: -10px;
+}
+st-popup-menu > div:before {
+  border-color: rgba(194, 225, 245, 0);
+  border-bottom-color: #c2e1f5;
+  border-width: 13px;
+  margin-left: -13px;
+}
+
