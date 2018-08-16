@@ -33,6 +33,9 @@ export class StPopupMenu {
   @Prop() target: string;
   @Prop() trigger: string = Trigger.hover;
   @Prop() delay: number = 500;
+  @Prop() backgroundColor: string;
+  @Prop() borderColor: string;
+  @Prop() borderWidth: string;
 
   @State() visible: boolean = false;
 
@@ -77,20 +80,24 @@ export class StPopupMenu {
     }
 
     const targetElSize = this.targetEl.getBoundingClientRect();
+    let popupRect  = this.popupEl.getBoundingClientRect();
+    const vw: number = document.documentElement.clientWidth;
 
     // Position the popup vertically
-    const top  = targetElSize.bottom + 10; // 10 px for the arrow
+    // 10 px for the arrow
+    const top  = targetElSize.bottom + 10;
 
     // Calculate left coordinate
+    let left   = (targetElSize.left + (targetElSize.width / 2));
+    left = left - popupRect.width / 2;
     // Check if popup exceeds viewport left limit
-    let left   = (targetElSize.left + (targetElSize.width / 2) - targetElSize.width);
     left       = left < 0 ? 0 : left;
 
     // Temporarily position popup to make further calculations
     this.popupEl.style.left = `${left}px`;
 
-    const popupRect  = this.popupEl.getBoundingClientRect();
-    const vw: number = document.documentElement.clientWidth;
+    // Recheck bounding client
+    popupRect = this.popupEl.getBoundingClientRect();
 
     // Check if popup exceeds viewport right limit
     if ( popupRect.right > vw ) {
@@ -98,7 +105,7 @@ export class StPopupMenu {
       left = left - diff;
     }
 
-    // Position the popup
+    // Final position the popup
     this.popupEl.style.left = `${left}px`;
     this.popupEl.style.top  = `${top}px`;
 
@@ -106,6 +113,20 @@ export class StPopupMenu {
     // Check st-popup-menu.css
     let center = targetElSize.left + (targetElSize.width / 2) - left;
     this.popupEl.style.setProperty('--arrow-pos', `${center}px`);
+
+    // Set css variables
+    if (this.backgroundColor) {
+      this.popupEl.style.setProperty('--background-color', `${this.backgroundColor}`);
+    }
+
+    if (this.borderColor) {
+      this.popupEl.style.setProperty('--border-color', `${this.borderColor}`);
+    }
+
+    if (this.borderWidth) {
+      this.popupEl.style.setProperty('--border-width', `${this.borderWidth}px`);
+    }
+
   }
 
   _setTriggerHover () {
@@ -133,7 +154,13 @@ export class StPopupMenu {
   }
 
   _setTriggerClick () {
-    this.targetEl.addEventListener('click', this._togglePopup);
+    this.targetEl.addEventListener('click', this._handleClick);
+  }
+
+  _handleClick = (e) => {
+    e.preventDefault();
+    this._togglePopup();
+    return false;
   }
 
   _switchToClickTrigger = () => {

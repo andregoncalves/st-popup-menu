@@ -25,6 +25,9 @@ declare global {
   namespace StencilComponents {
 
     interface StPopupMenu {
+      'backgroundColor': string;
+      'borderColor': string;
+      'borderWidth': string;
       'delay': number;
       'target': string;
       'trigger': string;
@@ -50,6 +53,9 @@ declare global {
   namespace JSXElements {
 
     export interface StPopupMenuAttributes extends HTMLAttributes {
+      'backgroundColor'?: string;
+      'borderColor'?: string;
+      'borderWidth'?: string;
       'delay'?: number;
       'target'?: string;
       'trigger'?: string;

@@ -41,6 +41,11 @@ npm start
 - Add this import to your root component or root module: `import 'st-popup-menu'`;
 - Then you can use the element `<st-popup-menu>` anywhere in your template, JSX, html etc
 
+### In a React/Rollup/Webpack app
+- Run `npm install st-popup-menu --save`
+- Add this import to your root component or root module: `import { defineCustomElements } from 'st-popup-menu';`;
+- Call `defineCustomElements(window);` in your js file
+
 ## Parameters
 
 Attribute | Default | Description
@@ -48,6 +53,9 @@ Attribute | Default | Description
 target | '' | A DOMString containing one selector to match an element
 trigger | 'hover' | The trigger that causes popup to be shown either *hover* or *click*
 delay | '500' | The delay (in ms) until the popup is hidden after mouse out.
+backgroundColor | 'white' | Popup background color
+borderColor | 'black' | Popup border color
+borderWidth | '1px' | Popup border width
 
 ## Example usage
 

@@ -17,6 +17,9 @@ st-popup-menu {
   height: 0;
 
   --arrow-pos: 10%;
+  --background-color: white;
+  --border-color: black;
+  --border-width: 1px;
 }
 st-popup-menu > div {
   background: green;
@@ -39,8 +42,8 @@ st-popup-menu > div img {
 */
 
 st-popup-menu > div {
-  background: #88b7d5;
-  border: 2px solid #c2e1f5;
+  background: var(--background-color);
+  border: var(--border-width) solid var(--border-color);
   position: relative;
 }
 st-popup-menu > div:after, st-popup-menu > div:before {
@@ -56,15 +59,13 @@ st-popup-menu > div:after, st-popup-menu > div:before {
 }
 
 st-popup-menu > div:after {
-  border-color: rgba(136, 183, 213, 0);
-  border-bottom-color: #88b7d5;
+  border-bottom-color: var(--background-color);
   border-width: 10px;
   margin-left: -10px;
 }
 st-popup-menu > div:before {
-  border-color: rgba(194, 225, 245, 0);
-  border-bottom-color: #c2e1f5;
-  border-width: 13px;
-  margin-left: -13px;
+  border-bottom-color: var(--border-color);
+  border-width: calc(10px + var(--border-width) );
+  margin-left: calc(-10px - var(--border-width) );
 }
 
