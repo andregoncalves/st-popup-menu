@@ -7,8 +7,7 @@
  * @copyright: 2018 Andre Goncalves
  * ==========================================================================
  */
-
-import { Component, Prop, State } from '@stencil/core';
+import { Component, Prop, State, Event, EventEmitter } from '@stencil/core';
 import { Trigger } from './st-popup-types';
 
 const throttled = (delay, fn) => {
@@ -39,6 +38,9 @@ export class StPopupMenu {
 
   @State() visible: boolean = false;
 
+  @Event() show : EventEmitter;
+  @Event() hide : EventEmitter;
+
   targetEl: HTMLElement;
   popupEl: HTMLDivElement;
 
@@ -62,7 +64,6 @@ export class StPopupMenu {
     window.addEventListener('resize', _ => this._calculatePosition());
 
     this._calculatePosition();
-
 
     if (this.trigger === Trigger.hover) {
       this._setTriggerHover();
@@ -91,7 +92,7 @@ export class StPopupMenu {
     let left   = (targetElSize.left + (targetElSize.width / 2));
     left = left - popupRect.width / 2;
     // Check if popup exceeds viewport left limit
-    left       = left < 0 ? 0 : left;
+    left       = left < 0 ? 1 : left;
 
     // Temporarily position popup to make further calculations
     this.popupEl.style.left = `${left}px`;
@@ -100,9 +101,10 @@ export class StPopupMenu {
     popupRect = this.popupEl.getBoundingClientRect();
 
     // Check if popup exceeds viewport right limit
+    // Push it left until all the popup is visible
     if ( popupRect.right > vw ) {
       const diff = popupRect.right - vw;
-      left = left - diff;
+      left = left - diff - 1;
     }
 
     // Final position the popup
@@ -114,7 +116,11 @@ export class StPopupMenu {
     let center = targetElSize.left + (targetElSize.width / 2) - left;
     this.popupEl.style.setProperty('--arrow-pos', `${center}px`);
 
-    // Set css variables
+    this._setPopupStyle();
+  }
+
+  // Set css custom variables based on passed style properties
+  _setPopupStyle () {
     if (this.backgroundColor) {
       this.popupEl.style.setProperty('--background-color', `${this.backgroundColor}`);
     }
@@ -126,7 +132,6 @@ export class StPopupMenu {
     if (this.borderWidth) {
       this.popupEl.style.setProperty('--border-width', `${this.borderWidth}px`);
     }
-
   }
 
   _setTriggerHover () {
@@ -142,15 +147,32 @@ export class StPopupMenu {
   }
 
   _showPopup = () => {
-    this.popupEl.classList.add('visible');
+    if (!this.popupEl.classList.contains('visible')) {
+      this.popupEl.classList.add('visible');
+      this._triggerEvent();
+    }
   }
 
   _hidePopup = () => {
-    this.popupEl.classList.remove('visible');
+    if (this.popupEl.classList.contains('visible')) {
+      this.popupEl.classList.remove('visible');
+      this._triggerEvent();
+    }
   }
 
   _togglePopup = () => {
     this.popupEl.classList.toggle('visible');
+    this._triggerEvent();
+  }
+
+  _triggerEvent = () => {
+
+    if (this.popupEl.classList.contains('visible')) {
+      this.show.emit(this.popupEl);
+    }
+    else {
+      this.hide.emit(this.popupEl);
+    }
   }
 
   _setTriggerClick () {
@@ -158,8 +180,9 @@ export class StPopupMenu {
   }
 
   _handleClick = (e) => {
-    e.preventDefault();
     this._togglePopup();
+
+    e.preventDefault();
     return false;
   }
 
@@ -190,11 +213,8 @@ export class StPopupMenu {
     }
   }
 
-
   render() {
-    console.log('render');
-    const cssClass = `st-popup-menu ${this.visible?'visible':''}`;
-
+    const cssClass = `st-popup-menu ${this.visible ? 'visible' : ''}`;
     return (
       <div class={cssClass}>
         <slot />

@@ -57,6 +57,24 @@ backgroundColor | 'white' | Popup background color
 borderColor | 'black' | Popup border color
 borderWidth | '1px' | Popup border width
 
+## Events
+
+The st-popup-menu element emits a `show` and `hide` events whenever the popup is shown or hidden.
+
+```js
+element = document.querySelector('st-popup-menu');
+element.addEventListener('show', (e) => {
+  // Reference to popup html node
+  console.log(e.detail);
+});
+
+element.addEventListener('hide', (e) => {
+  // Reference to popup html node
+  console.log(e.detail);
+});
+```
+
+
 ## Example usage
 
 ```html

@@ -22,11 +22,12 @@ st-popup-menu {
   --border-width: 1px;
 }
 st-popup-menu > div {
-  background: green;
-  position: absolute;
   visibility: hidden;
-  width: 200px;
+  background: var(--background-color);
+  border: var(--border-width) solid var(--border-color);
+  position: relative;
 }
+
 st-popup-menu > div.visible {
   visibility: visible;
 }
@@ -41,11 +42,6 @@ st-popup-menu > div img {
    ==========================================================================
 */
 
-st-popup-menu > div {
-  background: var(--background-color);
-  border: var(--border-width) solid var(--border-color);
-  position: relative;
-}
 st-popup-menu > div:after, st-popup-menu > div:before {
   bottom: 100%;
   left: 50%;
@@ -65,7 +61,6 @@ st-popup-menu > div:after {
 }
 st-popup-menu > div:before {
   border-bottom-color: var(--border-color);
-  border-width: calc(10px + var(--border-width) );
-  margin-left: calc(-10px - var(--border-width) );
+  border-width: calc( 10px + var(--border-width) );
+  margin-left: calc( -10px - var(--border-width) );
 }
-

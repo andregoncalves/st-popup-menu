@@ -57,6 +57,8 @@ declare global {
       'borderColor'?: string;
       'borderWidth'?: string;
       'delay'?: number;
+      'onHide'?: (event: CustomEvent) => void;
+      'onShow'?: (event: CustomEvent) => void;
       'target'?: string;
       'trigger'?: string;
     }

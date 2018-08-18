@@ -7,12 +7,30 @@
   <script src="/build/st-popup-menu.js"></script>
 </head>
 <body>
-    <st-popup-menu target="#a" trigger="click" background-color="white" border-color="black">
+    <st-popup-menu target="#a" trigger="hover" background-color="white" border-color="black">
       Testing popup
     </st-popup-menu>
 
-  <div id="a" style="background: #CCC; height: 100px; width: 30px; margin-top: 100px; margin-left: 5px; position: absolute; right: 25px"></div>
+  <div id="a" style="background: #CCC; height: 100px; width: 30px; margin-top: 100px; margin-left: 5px; position: absolute; right: 15px"></div>
 
+  <script>
+    element = document.querySelector('st-popup-menu');
+    element.addEventListener('show', (e) => {
+      // Reference to popup html node
+      console.log('show', e.detail);
+    });
+
+    element.addEventListener('hide', (e) => {
+      // Reference to popup html node
+      console.log('hide', e.detail);
+    });
+
+    element.addEventListener('click', (e) => {
+      // Reference to popup html node
+      console.log('click', e);
+    });
+
+  </script>
 
 
 </body>
